@@ -11,5 +11,5 @@ jobs:
     - name: Git clone my repo
       uses: actions/checkout@v1
 
-    -name: LS
+    - name: LS
       run : ls -la
