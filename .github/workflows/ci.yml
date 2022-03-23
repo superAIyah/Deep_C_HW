@@ -25,4 +25,10 @@ jobs:
         cd build/
         lcov -t "tests/test_funcs" -o coverage.info -c -d funcs/
         genhtml -o report coverage.info
+        
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: ./build/report/*
 
