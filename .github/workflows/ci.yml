@@ -19,3 +19,6 @@ jobs:
 
     - name: LINTER
       run : make check
+
+    - name: Make test report
+      run : make report
