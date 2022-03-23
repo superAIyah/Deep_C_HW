@@ -4,7 +4,7 @@ on:
       - hw
 
 jobs:
-  my_testing::
+  my_testing :
     runs-on: ubuntu-latest
 
     steps:
