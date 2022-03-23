@@ -2,5 +2,5 @@ check:
 	./linters/run.sh
 test:
 	./script
-    ./build/tests/test_fib
+	./build/tests/test_fib
 	
