@@ -8,7 +8,3 @@ check:
 	./linters/run.sh
 test:
 	./build/tests/test_fib
-report:
-	cd build/
-	lcov -t "tests/test_funcs" -o coverage.info -c -d funcs/
-	genhtml -o report coverage.info

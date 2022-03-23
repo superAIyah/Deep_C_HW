@@ -21,4 +21,8 @@ jobs:
       run : make check
 
     - name: Make test report
-      run : make report
+      run : |
+        cd build/
+        lcov -t "tests/test_funcs" -o coverage.info -c -d funcs/
+        genhtml -o report coverage.info
+
