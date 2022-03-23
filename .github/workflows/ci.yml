@@ -16,5 +16,9 @@ jobs:
         sudo apt update -y
         sudo apt install -y cppcheck clang-tidy python3-pip libc6-dbg cmake libgtest-dev
         sudo pip install cpplint
-        ./script
-        build/tests/test_fib
+
+    - name: TESTS + COVERAGE
+      run : make test
+
+    - name: LINTER
+      run : make check
