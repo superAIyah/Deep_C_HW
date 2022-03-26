@@ -8,20 +8,17 @@ int input_animals(FILE* input, FILE* output, Animal* mas) {
     while (!stop) {
         Animal new_animal;
         fputs("Введите кличку нового животного\n", output);
-        if (get_correct_string(input, output, PATTERN_NICKNAME, str)) {  // считываем корректную кличку
-            return -1;  // вернем -1 если ошибка маски регулярного выражения
+        if (!get_correct_string(input, output, PATTERN_NICKNAME, str)) {  // считываем корректную кличку
+            snprintf(new_animal.name, MAXLEN, str);
         }
-        snprintf(new_animal.name, MAXLEN, str);
         fputs("Введите вид животного\n", output);
-        if (get_correct_string(input, output, PATTERN_ANIMAL, str)) {  // считываем корректный вид
-            return -1;
+        if (!get_correct_string(input, output, PATTERN_ANIMAL, str)) {  // считываем корректный вид
+            snprintf(new_animal.type, MAXLEN, str);
         }
-        snprintf(new_animal.type, MAXLEN, str);
         fputs("Введите цвет нового животного.\n", output);
-        if (get_correct_string(input, output, PATTERN_ANIMAL, str)) {  // считываем корректный цвет
-            return -1;
+        if (!get_correct_string(input, output, PATTERN_ANIMAL, str)) {  // считываем корректный цвет
+            snprintf(new_animal.color, MAXLEN, str);
         }
-        snprintf(new_animal.color, MAXLEN, str);
         mas[index] = new_animal;
         index++;
         fputs("Желаете продолжить ввод? \"1\" - да, \"0\" - нет\n", output);
