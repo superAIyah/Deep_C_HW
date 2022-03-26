@@ -15,8 +15,9 @@ int main(void) {
            "2) Длина одной строки не должна превышать %d символов\n",
            MAXLEN);
     int n = input_animals(console_in, console_out, mas);  // считаем животных
-    for (int i = 0; i < n; i++)  // выведем всех животных после ввода
-        show_animal(console_out, mas[i]);
+    for (int i = 0; i < n; i++) {  // выведем всех животных после ввода
+        show_animal(console_out, &mas[i]);
+    }
     int stop_flag = 0;
     while (!stop_flag) {
         puts("Введите желаемый вид");

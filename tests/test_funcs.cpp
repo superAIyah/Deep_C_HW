@@ -27,7 +27,7 @@ TEST(show_animal, Test_output) {
     //ACT
     FILE* output = fopen("file.txt", "w");
 
-    show_animal(output, tiger);
+    show_animal(output, &tiger);
     fclose(output);
 
     output = fopen("file.txt", "r");

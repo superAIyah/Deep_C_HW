@@ -4,16 +4,23 @@ int input_animals(FILE* input, FILE* output, Animal* mas) {
     int index = 0;  // индекс массива
     int stop = 0;  // флаг остановки ввода
     char str[MAXLEN];  // вводимый текст пользователем
+
     while (!stop) {
         Animal new_animal;
         fputs("Введите кличку нового животного\n", output);
-        get_correct_string(input, output, PATTERN_NICKNAME, str);  // считываем корректную кличку
+        if (get_correct_string(input, output, PATTERN_NICKNAME, str)) {  // считываем корректную кличку
+            return -1;  // вернем -1 если ошибка маски регулярного выражения
+        }
         snprintf(new_animal.name, MAXLEN, str);
         fputs("Введите вид животного\n", output);
-        get_correct_string(input, output, PATTERN_ANIMAL, str);  // считываем корректный вид
+        if (get_correct_string(input, output, PATTERN_ANIMAL, str)) {  // считываем корректный вид
+            return -1;
+        }
         snprintf(new_animal.type, MAXLEN, str);
         fputs("Введите цвет нового животного.\n", output);
-        get_correct_string(input, output, PATTERN_ANIMAL, str);  // считываем корректный цвет
+        if (get_correct_string(input, output, PATTERN_ANIMAL, str)) {  // считываем корректный цвет
+            return -1;
+        }
         snprintf(new_animal.color, MAXLEN, str);
         mas[index] = new_animal;
         index++;
@@ -22,16 +29,16 @@ int input_animals(FILE* input, FILE* output, Animal* mas) {
         if (str[0] == '0' && str[1] == '\0')
             stop = 1;
     }
-    return index;
+    return index;  // Возвращает количество прочитанных животных
 }
 
-void get_correct_string(FILE* input, FILE* output, const char* pattern, char* str) {
+int get_correct_string(FILE* input, FILE* output, const char* pattern, char* str) {
     int regerr = 0;
     regex_t reg;
     regerr = regcomp(&reg, pattern, REG_EXTENDED);  // компиляция регулярного выражения
     if (regerr != 0) {
         fputs("Ошибка в регулярном выражении PATTERN\n", output);
-        return;
+        return 1;  // возвращает 1 в случае ошибки
     }
     do {
             regmatch_t pm;
@@ -43,6 +50,7 @@ void get_correct_string(FILE* input, FILE* output, const char* pattern, char* st
             if (regerr != 0)
                 fputs("Вы ввели некорректные символы, попробуйте еще раз\n", output);
         } while (regerr != 0);
+    return 0;
 }
 
 int safe_input(FILE* input, char* str, int maxlen) {  // безопасное считывание строки без переполнения стека
@@ -50,10 +58,10 @@ int safe_input(FILE* input, char* str, int maxlen) {  // безопасное с
     int overflow_flag = 0;
     char c = fgetc(input);
     while (c != '\n') {
-        if (index == maxlen - 1) {  // введено больше MAXLEN букв
+        if (index == maxlen - 1) {  // введено больше MAXLEN букв -> переполнение str
             overflow_flag = 1;  // флаг переполнения стека
         }
-        if (!overflow_flag) {
+        if (!overflow_flag) {  // если str еще не переполнился, считаем в него символ
             str[index] = c;
             index++;
         }
