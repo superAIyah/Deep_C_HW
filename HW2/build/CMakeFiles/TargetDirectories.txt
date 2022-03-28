@@ -1,0 +1,6 @@
+/home/fedor/Future/repos/vk_c_hw/HW2/build/CMakeFiles/rebuild_cache.dir
+/home/fedor/Future/repos/vk_c_hw/HW2/build/CMakeFiles/edit_cache.dir
+/home/fedor/Future/repos/vk_c_hw/HW2/build/CMakeFiles/main.dir
+/home/fedor/Future/repos/vk_c_hw/HW2/build/static_lib/CMakeFiles/rebuild_cache.dir
+/home/fedor/Future/repos/vk_c_hw/HW2/build/static_lib/CMakeFiles/edit_cache.dir
+/home/fedor/Future/repos/vk_c_hw/HW2/build/static_lib/CMakeFiles/dist_no_parallel.dir
