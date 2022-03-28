@@ -1,0 +1,34 @@
+on: 
+  push:
+    branches:
+      - hw
+
+jobs:
+  my_testing :
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Git clone my repo
+      uses: actions/checkout@v1
+
+    - name: Prepare project
+      run : make prepare
+
+    - name: TESTS + COVERAGE
+      run : make test
+
+    - name: LINTER
+      run : make check
+
+    - name: Make test report
+      run : |
+        cd build/
+        lcov -t "tests/test_funcs" -o coverage.info -c -d funcs/
+        genhtml -o report coverage.info
+        
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: ./build/report/*
+
