@@ -1,35 +1,13 @@
-/*Задание: 
-  Сравните и выведите в консоль время работы последовательного и параллельного с использованием нескольких процессов алгоритмов,
-  каждый из которых выделяет в динамической памяти массив 4-байтовых чисел размером 100 Мб и,
-  рассматривая каждое значение типа _int32_t как кортеж координат (x1, y1, x2, y2),
-  где каждая координата может принимать значение от -128 до 127,
-  последовательно вычисляет длину пути от первой до последней точки на координатной плоскости.
- */
+#include "dist_parallel.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <time.h>
-#include <math.h>
-#include <stdint.h>
-
-#define SZ 25e6
-
-typedef struct Point2 {
-    int8_t x1;
-    int8_t y1;
-    int8_t x2;
-    int8_t y2;
-} Point2 ;
-
-void fill_bits(int32_t* a) { // заполнить число случайными битами
+static void fill_bits(int32_t* a) { // заполнить число случайными битами
     for (int i = 0; i < 32; i++) {
         int rand_0_1 = rand() % 2;
         *a = *a | (rand_0_1 << i);
     }
 }
 
-int32_t* create_mas(int sz) {  // создаем массив с точками
+static int32_t* create_mas(int sz) {  // создаем массив с точками
     int32_t* mas = malloc(sizeof(int32_t) * sz);
     for (int i = 0; i < sz; i++) {
         mas[i] = 0;
@@ -38,7 +16,7 @@ int32_t* create_mas(int sz) {  // создаем массив с точками
     return mas;
 }
 
-Point2 get_point(int32_t a) {  // прочитать из int32 4 числа int8
+static Point2 get_point(int32_t a) {  // прочитать из int32 4 числа int8
     int8_t* mas = malloc(sizeof(int8_t) * 4);
     for (int i = 0; i < 4; i++) {  // считываем x1, y1, x2, y2
         int8_t tmp = 0;
@@ -54,11 +32,11 @@ Point2 get_point(int32_t a) {  // прочитать из int32 4 числа int
     return result;
 }
 
-float dist(Point2 p) {  // дистанция между (x1, y1) и (x2, y2)
+static float dist(Point2 p) {  // дистанция между (x1, y1) и (x2, y2)
     return sqrt(pow(p.x2 - p.x1, 2) + pow(p.y2 - p.y1, 2));
 }
 
-double count_segment(int32_t* mas, int left, int right) {
+static double count_segment(int32_t* mas, int left, int right) {
     double sum = 0;
     for (int i = left; i < right - 1; i++) {
         Point2 now = get_point(mas[i]);
@@ -72,7 +50,10 @@ double count_segment(int32_t* mas, int left, int right) {
     return sum;
 }
 
-double count_sum_dist(int32_t* mas, int sz, int num_proc) {  //посчитать суммарный путь по точкам в массиве
+double count_sum_dist_parallel(int32_t* mas, int sz, int num_proc) {  //посчитать суммарный путь по точкам в массиве
+    if (num_proc > sz) {
+        num_proc = sz;
+    }
     int step = sz / num_proc;
     double sum_between = 0;  // расстояние между частями каждого процесса
 
@@ -125,21 +106,4 @@ double count_sum_dist(int32_t* mas, int sz, int num_proc) {  //посчитат�
     }
     all_sum += sum_between;
     return all_sum;
-}
-
-void debug(Point2 a) {
-    printf("%d %d\n", a.x1, a.y1);
-    printf("%d %d\n", a.x2, a.y2);
-}
-
-int main() {
-    int n = 1000;
-    int proc = 12;
-    int32_t* mas = create_mas(n);
-    for (int i = 0; i < n; i++)
-        mas[i] = i;
-    for (int i = 0; i < n; i++) {
-        debug(get_point(mas[i]));
-    }
-    printf("%f", count_sum_dist(mas, n, proc));
 }

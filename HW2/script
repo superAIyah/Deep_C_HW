@@ -1,5 +1,5 @@
 #!/bin/bash
 
-gcc  main.c -o main -Wall -Werror -Wpedantic -lm
+gcc  multi.c -o multi -Wall -Werror -Wpedantic -lm
 echo "running..."
-./main
+./multi

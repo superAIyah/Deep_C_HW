@@ -1,13 +1,13 @@
 #include "dist_no_parallel.h"
 
-void fill_bits(int32_t* a) { // заполнить число случайными битами
+static void fill_bits(int32_t* a) { // заполнить число случайными битами
     for (int i = 0; i < 32; i++) {
         int rand_0_1 = rand() % 2;
         *a = *a | (rand_0_1 << i);
     }
 }
 
-int* create_mas(int sz) {  // создаем массив с точками
+static int32_t* create_mas(int sz) {  // создаем массив с точками
     int32_t* mas = malloc(sizeof(int32_t) * sz);
     for (int i = 0; i < sz; i++) {
         mas[i] = 0;
@@ -16,7 +16,7 @@ int* create_mas(int sz) {  // создаем массив с точками
     return mas;
 }
 
-Point2 get_point(int32_t a) {  // прочитать из int32 4 числа int8
+static Point2 get_point(int32_t a) {  // прочитать из int32 4 числа int8
     int8_t* mas = malloc(sizeof(int8_t) * 4);
     for (int i = 0; i < 4; i++) {
         int8_t tmp = 0;
@@ -32,7 +32,7 @@ Point2 get_point(int32_t a) {  // прочитать из int32 4 числа int
     return result;
 }
 
-float dist(Point2 p) {  // дистанция между (x1, y1) и (x2, y2)
+static float dist(Point2 p) {  // дистанция между (x1, y1) и (x2, y2)
     return sqrt(pow(p.x2 - p.x1, 2) + pow(p.y2 - p.y1, 2));
 }
 
@@ -50,7 +50,7 @@ double count_sum_dist(int32_t* mas, int sz) {  //посчитать суммар
     return sum;
 }
 
-void debug(Point2 a) {
+static void debug(Point2 a) {
     printf("%d %d\n", a.x1, a.y1);
     printf("%d %d\n", a.x2, a.y2);
 }
