@@ -1,1 +1,0 @@
-/usr/bin/cc -Wall -Wpedantic -Wextra -Werror  -rdynamic CMakeFiles/main.dir/main.c.o  -o main  static_lib/libdist_no_parallel.a -lm 

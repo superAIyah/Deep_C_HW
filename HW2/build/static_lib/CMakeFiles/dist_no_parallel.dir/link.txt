@@ -1,2 +1,0 @@
-/usr/bin/ar qc libdist_no_parallel.a  CMakeFiles/dist_no_parallel.dir/dist_no_parallel.c.o
-/usr/bin/ranlib libdist_no_parallel.a
