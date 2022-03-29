@@ -6,7 +6,7 @@
 #include "dist_no_parallel.h"
 #include "dist_parallel.h"
 #include <dlfcn.h>
-#include <time.h>
+#include <sys/time.h>
 
 typedef struct time_result {
     double ans;
@@ -14,22 +14,23 @@ typedef struct time_result {
 } time_result;
 
 time_result get_time(int* mas, int sz, int times, int num_proc) {
-    clock_t start_t, end_t;
-    double total = 0;
+    struct timespec start, finish;
+    double elapsed = 0;
     double ans;
     for (int i = 0; i < times; i++) {
-        start_t = clock();
+        clock_gettime(CLOCK_REALTIME, &start);
         if (num_proc != 0){
             ans = count_sum_dist_parallel(mas, sz, num_proc);
         }
         else {
             ans = count_sum_dist(mas, sz);
         }
-        end_t = clock();
-        total += (end_t - start_t) / (double)CLOCKS_PER_SEC;
+        clock_gettime(CLOCK_REALTIME, &finish);
+        elapsed += (finish.tv_sec - start.tv_sec);
+        elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     }
-    total /= times;
-    time_result result = {ans, total};
+    elapsed /= times;
+    time_result result = {ans, elapsed};
     return result;
 }
 
@@ -47,8 +48,8 @@ int main()
     int32_t mas[n];
     for (int i = 0; i < n; i++)
         mas[i] = i;
-
-    time_result a = get_time(mas, n, 5, 8);
+    
+    time_result a = get_time(mas, n, 5, 1000);
     time_result b = get_time(mas, n, 5, 0);
 
     show_time(a);
