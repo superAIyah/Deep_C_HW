@@ -1,56 +1,61 @@
+// crt_clock.c
+// This sample uses clock() to 'sleep' for three
+// seconds, then determines how long it takes
+// to execute an empty loop 600000000 times.
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <time.h>
 
-int main() {
-
-    int cpu = sysconf(_SC_NPROCESSORS_ONLN);
-    printf("CPU = %d\n", cpu);
-
-    int mas[100];
-    for (int i = 0; i < 100; i++)
-        mas[i] = i;
-    
-    int N = 100;
-    int p = 10;
-    int step = N / p;
-    int i = 0;
-    int cnt = 0;
-
-    int fd[p][2];
-    // fd[i][0] - reading
-    // fd[i][1] - writing
-
-    while (i < 100) {
-        pipe(fd[cnt]);
-        pid_t child = fork();
-        if (child == 0) {  // зашли в этого ребенка
-            int me = getpid();
-            int end = i + 10;
-            double sum = 0;
-            for (int j = i; j < end; j++) {
-                sum += j;
-            }
-            
-            // pipe
-            close(fd[cnt][0]); // nothing to read
-            write(fd[cnt][1], &sum, sizeof(sum));
-            close(fd[cnt][1]);
-
-            printf("sum from %d to %d = %f\n", i, end, sum);
-
-            exit(0);
-        }
-        i += step;
-        cnt++;
+static void fill_bits(int32_t* a) { // заполнить число случайными битами
+    for (int i = 0; i < 32; i++) {
+        int rand_0_1 = rand() % 2;
+        *a = *a | (rand_0_1 << i);
     }
-    double sum = 0;
-    for (int i = 0; i < p; i++) {
-        double sumFromChild;
-        close(fd[i][1]); // norhing to write
-        read(fd[i][0], &sumFromChild, sizeof(sumFromChild));
-        sum += sumFromChild;
-        printf("i = %d, SUM = %f\n", i, sum);
+}
+
+int32_t* create_mas(int sz) {  // создаем массив с точками
+    int32_t* mas = malloc(sizeof(int32_t) * sz);
+    for (int i = 0; i < sz; i++) {
+        mas[i] = 0;
+        fill_bits(&mas[i]);  // случайно флипаем биты в числе
     }
-    return 0;
+    return mas;
+}
+
+// Pauses for a specified number of clock cycles.
+void do_sleep( clock_t wait )
+{
+   clock_t goal;
+   goal = wait + clock();
+   while( goal > clock() )
+      ;
+}
+
+void debug(Point2 a) {
+    printf("%d %d\n", a.x1, a.y1);
+    printf("%d %d\n", a.x2, a.y2);
+}
+
+const long num_loops = 600000000L;
+
+int main( void )
+{
+   long    i = num_loops;
+   clock_t start, finish;
+   double  duration;
+
+   // Delay for a specified time.
+   printf( "Delay for three seconds\n" );
+   do_sleep( (clock_t)3 * CLOCKS_PER_SEC );
+   printf( "Done!\n" );
+
+   // Measure the duration of an event.
+   start = clock();
+   while( i-- )
+      ;
+   finish = clock();
+   duration = (double)(finish - start) / CLOCKS_PER_SEC;
+   printf( "Time to do %ld empty loops is ", num_loops );
+   printf( "%2.3f seconds\n", duration );
 }

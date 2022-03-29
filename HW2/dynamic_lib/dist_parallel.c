@@ -1,21 +1,5 @@
 #include "dist_parallel.h"
 
-static void fill_bits(int32_t* a) { // заполнить число случайными битами
-    for (int i = 0; i < 32; i++) {
-        int rand_0_1 = rand() % 2;
-        *a = *a | (rand_0_1 << i);
-    }
-}
-
-static int32_t* create_mas(int sz) {  // создаем массив с точками
-    int32_t* mas = malloc(sizeof(int32_t) * sz);
-    for (int i = 0; i < sz; i++) {
-        mas[i] = 0;
-        fill_bits(&mas[i]);  // случайно флипаем биты в числе
-    }
-    return mas;
-}
-
 static Point2 get_point(int32_t a) {  // прочитать из int32 4 числа int8
     int8_t* mas = malloc(sizeof(int8_t) * 4);
     for (int i = 0; i < 4; i++) {  // считываем x1, y1, x2, y2

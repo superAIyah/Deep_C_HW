@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(dist_parallel)
 
+set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-fprofile-arcs -ftest-coverage -fPIC -O0")
+
 set(DIST_PARALLEL_LIB_LIBRARIES)
 set(DIST_PARALLEL_LIB_INCLUDE_DIRS)
 

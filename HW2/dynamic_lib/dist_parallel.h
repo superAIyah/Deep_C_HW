@@ -19,8 +19,6 @@ typedef struct Point2 {
 
 #endif
 
-static void fill_bits(int32_t* a);
-static int32_t* create_mas(int sz);
 static Point2 get_point(int32_t a);
 static float dist(Point2 p);
 static double count_segment(int32_t* mas, int left, int right);
