@@ -44,7 +44,7 @@ int main()
     int cpu = sysconf(_SC_NPROCESSORS_ONLN);  // количество процессоров
     printf("cpu = %d\n", cpu);
 
-    int n = 1000000; // заполняем массив
+    /*int n = 1000000; // заполняем массив
     int32_t mas[n];
     for (int i = 0; i < n; i++)
         mas[i] = i;
@@ -74,6 +74,6 @@ int main()
             num_proc_best = i;
         }
     }
-    printf("BEST TIME IS %f WITH %d PROCESSES\n", time_best, num_proc_best);
+    printf("BEST TIME IS %f WITH %d PROCESSES\n", time_best, num_proc_best);*/
 
 }

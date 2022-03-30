@@ -29,7 +29,7 @@ jobs:
 
     - name: Make test report
       run : |
-        cd build/
+        cd HW2/build/
         lcov -t "tests/test_libs" -o coverage.info -c -d static_lib/ -d dynamic_lib/
         genhtml -o report coverage.info
         
@@ -37,4 +37,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: code-coverage-report
-        path: ./build/report/*
+        path: ./HW2/build/report/*
