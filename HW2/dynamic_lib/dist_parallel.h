@@ -5,7 +5,7 @@
 #include <math.h>
 #include <stdint.h>
 
-#define SZ 25e6
+#define ERROR -1
 
 #ifndef Point
 #define Point

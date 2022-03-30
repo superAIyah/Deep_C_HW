@@ -13,7 +13,7 @@ extern "C" {
 //cd report
 //python3 -m http.server 8000
 
-TEST(check, big_test) {
+TEST(answers, big_test) {
     int cpu = sysconf(_SC_NPROCESSORS_ONLN);  // количество процессоров
 
     int n = 1000000; // заполняем массив
@@ -26,7 +26,7 @@ TEST(check, big_test) {
     EXPECT_EQ(result1, result2);
 }
 
-TEST(check, too_many_proceses) {
+TEST(answers, too_many_proceses) {
     int cpu = sysconf(_SC_NPROCESSORS_ONLN);  // количество процессоров
 
     int n = 6; // заполняем массив
@@ -37,4 +37,15 @@ TEST(check, too_many_proceses) {
     double result1 = count_sum_dist(mas, n);
     double result2 = count_sum_dist_parallel(mas, n, cpu);
     EXPECT_EQ(result1, result2);
+}
+
+TEST(stress_test, fork_fail) {
+    int n = 100000;
+    int32_t mas[n];
+    for (int i = 0; i < n; i++)
+        mas[i] = i%100;
+
+    double result1 = count_sum_dist_parallel(mas, n, n);  // слишком много процессов
+    double result2 = count_sum_dist_parallel(mas, n, 2);
+    EXPECT_EQ(result1, -1);
 }

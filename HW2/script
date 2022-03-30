@@ -1,5 +1,0 @@
-#!/bin/bash
-
-gcc  multi.c -o multi -Wall -Werror -Wpedantic -lm
-echo "running..."
-./multi

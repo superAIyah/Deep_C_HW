@@ -47,10 +47,14 @@ double count_sum_dist_parallel(int32_t* mas, int sz, int num_proc) {  //посч
     int cnt = 0;  // index of current pipe
     int i = 0;  // start index
 
+    int error_flag = 0;
     while (i < sz) {
         pipe(fd[cnt]);
         pid_t child = fork();
-
+        if (child == -1) {
+            error_flag = 1;
+            break; // конец обработки массива, возврат ошибки
+        }
         if (child == 0) {  // мы внутри ребенка
             close(fd[cnt][0]);  // nothing to read
 
@@ -79,6 +83,20 @@ double count_sum_dist_parallel(int32_t* mas, int sz, int num_proc) {  //посч
             }
         }
     }
+
+    pid_t pid;
+    while ( (pid = waitpid(-1, NULL, WNOHANG)) > 0) { // дожидаемся закрытия всех процессов
+        continue;
+    }
+
+    if (error_flag) {
+        for (int i = 0; i < cnt; i++) {
+            close(fd[i][1]);  // закрытие pipe, которые успели открыть
+            close(fd[i][0]);
+        }
+        return ERROR;
+    }
+
     // считываем суммы потоков
     double all_sum = 0;
     for (int i = 0; i < num_proc; i++) {

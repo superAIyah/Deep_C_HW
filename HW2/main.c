@@ -49,9 +49,31 @@ int main()
     for (int i = 0; i < n; i++)
         mas[i] = i;
     
-    time_result a = get_time(mas, n, 5, 1000);
-    time_result b = get_time(mas, n, 5, 0);
+    time_result a = get_time(mas, n, times, cpu); // simple test output
+    time_result b = get_time(mas, n, times, 0);
 
+    printf("parallel ");
     show_time(a);
+    printf("non parallel ");
     show_time(b);
+
+    // сравнительный анализ
+    char const* col0 = "number of process";
+    char const* col1 = "parallel time";
+    char const* col2 = "non parallel time";
+    double time_best = 100;
+    int num_proc_best = -1;
+    printf("\nResearch table: \n");
+    printf("%-20s|%-20s|%-20s\n", col0, col1, col2);
+    for (int i = 1; i < 20; i++) {
+        time_result parallel = get_time(mas, n, times, i);
+        time_result non_parallel = get_time(mas, n, times, 1);
+        printf("%-20d|%-20f|%-20f\n", i, parallel.time, non_parallel.time);
+        if (parallel.time < time_best) {
+            time_best = parallel.time;
+            num_proc_best = i;
+        }
+    }
+    printf("BEST TIME IS %f WITH %d PROCESSES\n", time_best, num_proc_best);
+
 }

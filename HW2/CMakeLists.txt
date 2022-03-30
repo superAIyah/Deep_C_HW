@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(main)
 
-#set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-Wall -Wpedantic -Wextra -Werror -ldl")
-#set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-ldl")
-
 add_subdirectory(static_lib)  # собери cmakelists библиотек
 add_subdirectory(dynamic_lib)
 
