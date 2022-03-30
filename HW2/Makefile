@@ -5,3 +5,5 @@ prepare:
 	./cmk
 test:
 	./build/tests/tests_lib
+main:
+	./build/main
