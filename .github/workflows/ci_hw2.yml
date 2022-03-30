@@ -21,11 +21,10 @@ jobs:
         cd HW2/
         make test
 
-    - name: Compare time multiprocessing
-      run : |
-        cd HW2/
-        make main
-      
+    - name: main output
+      run: |
+        cd HW2
+        ./build/main
 
     - name: Make test report
       run : |
