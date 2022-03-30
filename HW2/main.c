@@ -49,13 +49,13 @@ int main()
     for (int i = 0; i < n; i++)
         mas[i] = i;
     
-    /*time_result a = get_time(mas, n, times, cpu); // simple test output
+    time_result a = get_time(mas, n, times, cpu); // simple test output
     time_result b = get_time(mas, n, times, 0);
 
     printf("parallel ");
     show_time(a);
     printf("non parallel ");
-    show_time(b);*/
+    show_time(b);
 
     // сравнительный анализ
     char const* col0 = "number of process";

@@ -21,11 +21,6 @@ jobs:
         cd HW2/
         make test
 
-    - name: main output
-      run: |
-        cd HW2
-        ./build/main
-
     - name: Make test report
       run : |
         cd HW2/build/
