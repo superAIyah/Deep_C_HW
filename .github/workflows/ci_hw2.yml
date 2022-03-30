@@ -20,3 +20,21 @@ jobs:
       run : |
         cd HW2/
         make test
+
+    - name: Compare time multiprocessing
+      run : |
+        cd HW2/
+        make main
+      
+
+    - name: Make test report
+      run : |
+        cd build/
+        lcov -t "tests/test_libs" -o coverage.info -c -d static_lib/ -d dynamic_lib/
+        genhtml -o report coverage.info
+        
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: ./build/report/*
