@@ -11,5 +11,8 @@ jobs:
     - name: Git clone my repo
       uses: actions/checkout@v1
 
-    - name: Where are we
-      run : ls -la
+    - name: Prepare project
+      run : make prepare
+
+    - name: TESTS + COVERAGE
+      run : ./HW2/make test
