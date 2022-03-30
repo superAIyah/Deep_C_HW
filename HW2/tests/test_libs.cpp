@@ -56,6 +56,6 @@ TEST(stress_test, fork_fail) {
     for (int i = 0; i < n; i++)
         mas[i] = i%100;
 
-    double result1 = count_sum_dist_parallel(mas, n, n);  // слишком много процессов
+    double result1 = count_sum_dist_parallel(mas, n, n+1);  // слишком много процессов
     EXPECT_EQ(result1, -1);
 }
