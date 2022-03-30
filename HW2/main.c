@@ -74,6 +74,6 @@ int main()
             num_proc_best = i;
         }
     }
-    printf("BEST TIME IS %f WITH %d PROCESSES\n", time_best, num_proc_best);*/
+    printf("BEST TIME IS %f WITH %d PROCESSES\n", time_best, num_proc_best);
 
 }
