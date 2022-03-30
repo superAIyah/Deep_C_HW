@@ -44,18 +44,18 @@ int main()
     int cpu = sysconf(_SC_NPROCESSORS_ONLN);  // количество процессоров
     printf("cpu = %d\n", cpu);
 
-    /*int n = 1000000; // заполняем массив
+    int n = 1000000; // заполняем массив
     int32_t mas[n];
     for (int i = 0; i < n; i++)
         mas[i] = i;
     
-    time_result a = get_time(mas, n, times, cpu); // simple test output
+    /*time_result a = get_time(mas, n, times, cpu); // simple test output
     time_result b = get_time(mas, n, times, 0);
 
     printf("parallel ");
     show_time(a);
     printf("non parallel ");
-    show_time(b);
+    show_time(b);*/
 
     // сравнительный анализ
     char const* col0 = "number of process";
