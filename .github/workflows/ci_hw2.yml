@@ -1,0 +1,15 @@
+on: 
+  push:
+    branches:
+      - hw2
+
+jobs:
+  my_testing :
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Git clone my repo
+      uses: actions/checkout@v1
+
+    - name: Where are we
+      run : ls -la
