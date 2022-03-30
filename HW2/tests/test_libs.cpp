@@ -39,6 +39,17 @@ TEST(answers, too_many_proceses) {
     EXPECT_EQ(result1, result2);
 }
 
+TEST(min_max, correct_sum) {
+    int n = 10;
+    int32_t mas[n];
+    for (int i = 0; i < n; i++)
+        mas[i] = i%100;
+    
+    double result1 = count_sum_dist_parallel(mas, n, n);  // n процессов
+    double result2 = count_sum_dist_parallel(mas, n, 1);  // 1 процесс
+    EXPECT_EQ(result1, result2);
+}
+
 TEST(stress_test, fork_fail) {
     int n = 100000;
     int32_t mas[n];
@@ -46,6 +57,5 @@ TEST(stress_test, fork_fail) {
         mas[i] = i%100;
 
     double result1 = count_sum_dist_parallel(mas, n, n);  // слишком много процессов
-    double result2 = count_sum_dist_parallel(mas, n, 2);
     EXPECT_EQ(result1, -1);
 }

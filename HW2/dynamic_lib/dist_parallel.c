@@ -90,10 +90,6 @@ double count_sum_dist_parallel(int32_t* mas, int sz, int num_proc) {  //посч
     }
 
     if (error_flag) {
-        for (int i = 0; i < cnt; i++) {
-            close(fd[i][1]);  // закрытие pipe, которые успели открыть
-            close(fd[i][0]);
-        }
         return ERROR;
     }
 
