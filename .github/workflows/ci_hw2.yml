@@ -12,7 +12,11 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Prepare project
-      run : ./HW2/make prepare
+      run : |
+        cd HW2/
+        .make prepare
 
     - name: TESTS + COVERAGE
-      run : ./HW2/make test
+      run : |
+        ls -la
+        make test
