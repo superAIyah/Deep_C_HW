@@ -45,7 +45,6 @@ int main(int argc, char* argv[])
     double parallel_times[cnt_measure];
     double no_parallel_times[cnt_measure];
     for (int i = 0; i < cnt_measure; i++) {
-        printf("i = %d\n", i);
         int cnt_proc = 1 + i * step;
         double parallel = get_time(mas, n, times, cnt_proc);
         double non_parallel = get_time(mas, n, times, 0);

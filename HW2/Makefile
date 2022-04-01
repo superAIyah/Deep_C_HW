@@ -9,3 +9,11 @@ main:
 	./build/main
 check:
 	./linter/run.sh
+valgrind_install:
+	wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2
+	tar xfv valgrind-3.18.1.tar.bz2
+	cd valgrind-3.18.1
+	./autogen.sh
+	./configure
+	make
+	make install
