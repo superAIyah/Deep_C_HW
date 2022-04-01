@@ -25,7 +25,7 @@ jobs:
       run : |
         sudo apt-get install valgrind
         valgrind --tool=memcheck --leak-check=yes HW2/build/sample
-
+        
     - name: TESTS + COVERAGE
       run : |
         cd HW2/
@@ -42,10 +42,12 @@ jobs:
       with:
         name: code-coverage-report
         path: ./HW2/build/report/*
+    
+    - name: Make Time comparing table
+      run: HW2/build/main
 
     - name: Archieve time comparing file
-      run: HW2/build/main
       uses: actions/upload-artifact@v3
       with:
         name: time-comparing-table-output
-        path: HW2/time.txt
+        path: HW2/build/time.txt
