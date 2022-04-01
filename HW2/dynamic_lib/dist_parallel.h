@@ -19,7 +19,7 @@ typedef struct Point2 {
 
 #endif
 
-static Point2 get_point(int32_t a);
+Point2 get_point(int32_t a);
 static float dist(Point2 p);
 static double count_segment(int32_t* mas, int left, int right);
 double count_sum_dist_parallel(int32_t* mas, int sz, int num_proc);

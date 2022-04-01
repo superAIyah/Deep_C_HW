@@ -38,17 +38,25 @@ void show_time(time_result a) {
     printf("result = %f | time = %f\n", a.ans, a.time);
 }
 
+void debug(Point2 p) {
+    printf("x1 = %d, y1 = %d\n", p.x1, p.y1);
+    printf("x1 = %d, y1 = %d\n", p.x2, p.y2);
+}
+
 int main()
 {
     int times = 5;  // количество раз по которым усреднять время работы
     int cpu = sysconf(_SC_NPROCESSORS_ONLN);  // количество процессоров
     printf("cpu = %d\n", cpu);
 
-    int n = 1000000; // заполняем массив
-    int32_t mas[n];
+    int n = 1000000;//26214400; // заполняем массив
+    printf("...\n");
+    int32_t* mas;
+    mas = malloc(4 * n); 
+    printf("OK1\n");
     for (int i = 0; i < n; i++)
-        mas[i] = i;
-    
+        mas[i] = i % 100;
+    printf("OK\n");
     time_result a = get_time(mas, n, times, cpu); // simple test output
     time_result b = get_time(mas, n, times, 0);
 
