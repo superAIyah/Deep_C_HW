@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     // сравнительный анализ
     double time_best = 100;
     int num_proc_best = -1;
-    int cnt_measure = 2;
+    int cnt_measure = 10;
     int step = 8;
     double parallel_times[cnt_measure];
     double no_parallel_times[cnt_measure];
