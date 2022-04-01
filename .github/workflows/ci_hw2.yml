@@ -1,0 +1,53 @@
+on: 
+  push:
+    branches:
+      - hw2
+
+jobs:
+  my_testing :
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Git clone my repo
+      uses: actions/checkout@v1
+
+    - name: Prepare project
+      run : |
+        cd HW2/
+        make prepare
+
+    - name: Linter Cppcheck
+      run : |
+        cd HW2/
+        make check
+
+    - name: Valgrind on sample
+      run : |
+        sudo apt-get install valgrind
+        valgrind --tool=memcheck --leak-check=yes HW2/build/sample
+        
+    - name: TESTS + COVERAGE
+      run : |
+        cd HW2/
+        make test
+
+    - name: Make test report
+      run : |
+        cd HW2/build/
+        lcov -t "tests/test_libs" -o coverage.info -c -d static_lib/ -d dynamic_lib/
+        genhtml -o report coverage.info
+        
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage-report
+        path: ./HW2/build/report/*
+    
+    - name: Make Time comparing table
+      run: HW2/build/main
+
+    - name: Archieve time comparing file
+      uses: actions/upload-artifact@v3
+      with:
+        name: time-comparing-table-output
+        path: time.txt
