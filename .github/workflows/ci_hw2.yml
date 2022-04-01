@@ -16,7 +16,7 @@ jobs:
         cd HW2/
         make prepare
 
-    - name: Cppcheck
+    - name: Linter Cppcheck
       run : |
         cd HW2/
         make check
@@ -37,3 +37,16 @@ jobs:
       with:
         name: code-coverage-report
         path: ./HW2/build/report/*
+    
+    - name: Make Time comparing table
+      run: |
+        HW2/build/main
+
+    - name: Archieve time comparing file
+      uses: actions/upload-artifact@v3
+        with:
+          name: Time comparing table output
+          path: ./HW2/time.txt
+
+    - name: Valgrind on sample
+      run : valgrind --tool=memcheck --leak-check=yes HW2/build/sample

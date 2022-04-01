@@ -12,7 +12,7 @@
 int main(int argc, char* argv[])
 {
     int cpu = sysconf(_SC_NPROCESSORS_ONLN);  // количество процессоров
-    printf("cpu = %d\n", cpu);
+    printf("cpu = %d = num of processes\n", cpu);
 
     int n = 26214400; // заполняем массив
     int32_t* mas;
