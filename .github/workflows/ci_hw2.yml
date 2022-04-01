@@ -44,7 +44,9 @@ jobs:
         path: ./HW2/build/report/*
     
     - name: Make Time comparing table
-      run: HW2/build/main
+      run: |
+        HW2/build/main
+        ls
 
     - name: Archieve time comparing file
       uses: actions/upload-artifact@v3
