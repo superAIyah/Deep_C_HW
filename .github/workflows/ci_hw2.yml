@@ -49,4 +49,6 @@ jobs:
         path: HW2/time.txt
 
     - name: Valgrind on sample
-      run : valgrind --tool=memcheck --leak-check=yes HW2/build/sample
+      run : |
+        make valgrind_install
+        valgrind --tool=memcheck --leak-check=yes HW2/build/sample
