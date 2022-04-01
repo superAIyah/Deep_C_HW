@@ -3,85 +3,75 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "dist_no_parallel.h"
 #include "dist_parallel.h"
 #include <dlfcn.h>
 #include <sys/time.h>
 
-typedef struct time_result {
-    double ans;
-    double time;
-} time_result;
-
-time_result get_time(int* mas, int sz, int times, int num_proc) {
+double get_time(int* mas, int sz, int times, int num_proc) {
     struct timespec start, finish;
     double elapsed = 0;
-    double ans;
     for (int i = 0; i < times; i++) {
         clock_gettime(CLOCK_REALTIME, &start);
         if (num_proc != 0){
-            ans = count_sum_dist_parallel(mas, sz, num_proc);
+            count_sum_dist_parallel(mas, sz, num_proc);  // параллельная сумма
         }
         else {
-            ans = count_sum_dist(mas, sz);
+            count_sum_dist(mas, sz);  // без мультипроцессинга
         }
         clock_gettime(CLOCK_REALTIME, &finish);
         elapsed += (finish.tv_sec - start.tv_sec);
         elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
     }
     elapsed /= times;
-    time_result result = {ans, elapsed};
-    return result;
+    return elapsed;
 }
 
-void show_time(time_result a) {
-    printf("result = %f | time = %f\n", a.ans, a.time);
-}
-
-void debug(Point2 p) {
-    printf("x1 = %d, y1 = %d\n", p.x1, p.y1);
-    printf("x1 = %d, y1 = %d\n", p.x2, p.y2);
-}
-
-int main()
+int main(int argc, char* argv[])
 {
-    int times = 5;  // количество раз по которым усреднять время работы
-    int cpu = sysconf(_SC_NPROCESSORS_ONLN);  // количество процессоров
-    printf("cpu = %d\n", cpu);
-
-    int n = 1000000;//26214400; // заполняем массив
-    printf("...\n");
+    int times = 3;  // сколько раз считать время перед усреднением
+    int n = 26214400;//26214400; // заполняем массив
     int32_t* mas;
-    mas = malloc(4 * n); 
-    printf("OK1\n");
+    mas = malloc(104857600);  // 26214400 * 4 
     for (int i = 0; i < n; i++)
         mas[i] = i % 100;
-    printf("OK\n");
-    time_result a = get_time(mas, n, times, cpu); // simple test output
-    time_result b = get_time(mas, n, times, 0);
-
-    printf("parallel ");
-    show_time(a);
-    printf("non parallel ");
-    show_time(b);
 
     // сравнительный анализ
+    double time_best = 100;
+    int num_proc_best = -1;
+    int cnt_measure = 10;
+    int step = 8;
+    double parallel_times[cnt_measure];
+    double no_parallel_times[cnt_measure];
+    for (int i = 0; i < cnt_measure; i++) {
+        printf("i = %d\n", i);
+        int cnt_proc = 1 + i * step;
+        double parallel = get_time(mas, n, times, cnt_proc);
+        double non_parallel = get_time(mas, n, times, 0);
+        parallel_times[i] = parallel;
+        no_parallel_times[i] = non_parallel;
+        if (parallel < time_best) {
+            time_best = parallel;
+            num_proc_best = cnt_proc;
+        }
+    }
+
+    FILE* fp = fopen("time.txt", "w");
+    if (fp == NULL) {
+        printf("Can not open file\n");
+        return 0;
+    }
+    // вывод таблицы
     char const* col0 = "number of process";
     char const* col1 = "parallel time";
     char const* col2 = "non parallel time";
-    double time_best = 100;
-    int num_proc_best = -1;
-    printf("\nResearch table: \n");
-    printf("%-20s|%-20s|%-20s\n", col0, col1, col2);
-    for (int i = 1; i < 20; i++) {
-        time_result parallel = get_time(mas, n, times, i);
-        time_result non_parallel = get_time(mas, n, times, 1);
-        printf("%-20d|%-20f|%-20f\n", i, parallel.time, non_parallel.time);
-        if (parallel.time < time_best) {
-            time_best = parallel.time;
-            num_proc_best = i;
-        }
+    fprintf(fp, "\nResearch table: \n");
+    fprintf(fp, "%-20s|%-20s|%-20s\n", col0, col1, col2);
+    for (int i = 0; i < cnt_measure; i++) {
+        fprintf(fp, "%-20d|%-20f|%-20f\n", 1 + (step * i), parallel_times[i], no_parallel_times[i]);
     }
-    printf("BEST TIME IS %f WITH %d PROCESSES\n", time_best, num_proc_best);
-
+    fprintf(fp, "BEST TIME IS %f WITH %d PROCESSES\n", time_best, num_proc_best);
+    fclose(fp);
+    return 0;
 }

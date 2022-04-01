@@ -1,6 +1,6 @@
 #include "dist_parallel.h"
 
-Point2 get_point(int32_t a) {  // прочитать из int32 4 числа int8
+static Point2 get_point(int32_t a) {  // прочитать из int32 4 числа int8
     Point2 result;
     for (int i = 0; i < 4; ++i) {  // считываем x1, y1, x2, y2
         int8_t tmp = 0;

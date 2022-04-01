@@ -16,7 +16,7 @@ extern "C" {
 TEST(answers, big_test) {
     int cpu = sysconf(_SC_NPROCESSORS_ONLN);  // количество процессоров
 
-    int n = 1000000; // заполняем массив
+    int n = 100; // заполняем массив
     int32_t mas[n];
     for (int i = 0; i < n; i++)
         mas[i] = i%100;

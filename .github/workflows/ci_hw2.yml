@@ -16,6 +16,11 @@ jobs:
         cd HW2/
         make prepare
 
+    - name: Cppcheck
+      run : |
+        cd HW2/
+        make check
+
     - name: TESTS + COVERAGE
       run : |
         cd HW2/

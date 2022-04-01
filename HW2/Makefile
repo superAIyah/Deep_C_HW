@@ -7,3 +7,5 @@ test:
 	./build/tests/tests_lib
 main:
 	./build/main
+check:
+	./linter/run.sh

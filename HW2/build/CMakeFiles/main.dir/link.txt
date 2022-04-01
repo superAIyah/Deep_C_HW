@@ -1,1 +1,0 @@
-/usr/bin/cc    -coverage -lgcov -rdynamic CMakeFiles/main.dir/main.c.o  -o main  -Wl,-rpath,/home/fedor/Future/repos/vk_c_hw/HW2/build/dynamic_lib static_lib/libdist_no_parallel.a dynamic_lib/libdist_parallel.so -lm 

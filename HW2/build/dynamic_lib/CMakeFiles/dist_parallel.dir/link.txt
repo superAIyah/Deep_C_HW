@@ -1,1 +1,0 @@
-/usr/bin/cc -fPIC -fprofile-arcs -ftest-coverage -fPIC -O0  -shared -Wl,-soname,libdist_parallel.so -o libdist_parallel.so CMakeFiles/dist_parallel.dir/dist_parallel.c.o  -lm 
